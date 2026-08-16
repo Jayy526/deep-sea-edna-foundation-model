@@ -1,0 +1,11 @@
+{
+  "subset_name": "main",
+  "requested_size": 200000,
+  "actual_size": 200000,
+  "sampling": "systematic (fixed stride over QC-passed reads in file order)",
+  "stride": 15,
+  "qc_passed_population": 3018522,
+  "scope": "SUBSET (not the full dataset)",
+  "elapsed_seconds": 40.23,
+  "seed": 42
+}

@@ -1,0 +1,34 @@
+{
+  "stage": "testrun",
+  "run_label": "TEST RUN",
+  "subset_size": 2000,
+  "foundation": {
+    "reused": true,
+    "rows": 2000
+  },
+  "baseline": {
+    "reused": true,
+    "rows": 2000
+  },
+  "validation_checks": {
+    "foundation": {
+      "shape": [
+        2000,
+        1536
+      ],
+      "all_finite": true,
+      "pca_ran": true,
+      "variance_first_10": 0.777534
+    },
+    "baseline": {
+      "shape": [
+        2000,
+        137
+      ],
+      "all_finite": true,
+      "pca_ran": true,
+      "variance_first_10": 0.789784
+    }
+  },
+  "verdict": "All test-run checks passed; safe to scale up."
+}

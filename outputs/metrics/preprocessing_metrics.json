@@ -1,0 +1,66 @@
+{
+  "stage": "preprocess",
+  "scope": "FULL DATASET",
+  "records_processed": 3026920,
+  "elapsed_seconds": 78.923,
+  "records_per_second": 38352.62,
+  "megabytes_per_second": 8.222,
+  "baseline_memory_mb_before_streaming": 796.95,
+  "streaming_phase_memory_mb": 855.8,
+  "streaming_phase_memory_delta_mb": 58.85,
+  "peak_process_memory_mb": 1490.5,
+  "memory_note": "Absolute RSS is dominated by imported libraries (the CLI imports torch and transformers to record the environment), so the figure that supports the constant-memory claim is streaming_phase_memory_delta_mb: the growth attributable to streaming the whole FASTA. peak_process_memory_mb additionally covers the post-hoc exact-statistics pass, which deliberately reads metadata columns back in to compute exact order statistics rather than approximating them.",
+  "metadata_parquet_bytes": 20854687,
+  "metadata_parquet_mb": 19.89,
+  "qc_configuration": {
+    "thresholds": {
+      "min_length": 100,
+      "max_length": null,
+      "valid_alphabet": "ACGT",
+      "ambiguity_codes": "NRYKMSWBDHV",
+      "ambiguity_policy": "longest_unambiguous_run",
+      "max_ambiguous_fraction": 0.1,
+      "min_effective_length": 100,
+      "max_single_base_fraction": 0.9,
+      "max_homopolymer_fraction": 0.9,
+      "min_gc": null,
+      "max_gc": null
+    },
+    "reason_codes": {
+      "0": "pass",
+      "1": "empty_sequence",
+      "2": "below_min_length",
+      "3": "above_max_length",
+      "4": "invalid_characters",
+      "5": "ambiguous_fraction_exceeded",
+      "6": "contains_ambiguous_and_policy_is_reject",
+      "7": "below_min_effective_length",
+      "8": "low_complexity_single_base",
+      "9": "gc_out_of_range"
+    },
+    "notes": {
+      "padding": "No padding is applied at any point. Reads enter the encoder at their true length.",
+      "ambiguity_policy": "longest_unambiguous_run keeps the longest contiguous ACGT stretch; it never substitutes or invents a base.",
+      "case": "Sequences are uppercased; case carries no information in this dataset."
+    }
+  },
+  "environment": {
+    "python": "3.13.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12,
+    "numpy": "2.5.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.15.0",
+    "sklearn": "1.9.0",
+    "umap": "0.5.12",
+    "pandas": "3.0.3",
+    "pyarrow": "25.0.0",
+    "cuda_available": true,
+    "cuda_version": "12.8",
+    "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_mb": 6140.5
+  },
+  "seed": 42,
+  "config_path": "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih\\configs\\default.json"
+}

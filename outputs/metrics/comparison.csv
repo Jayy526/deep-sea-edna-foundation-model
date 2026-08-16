@@ -1,0 +1,19 @@
+metric,baseline_kmer_tnf,foundation_model_genomeocean
+Accuracy (taxonomic),Not available with the current dataset/experimental setup.,Not available with the current dataset/experimental setup.
+Macro precision,Not available with the current dataset/experimental setup.,Not available with the current dataset/experimental setup.
+Macro recall,Not available with the current dataset/experimental setup.,Not available with the current dataset/experimental setup.
+Macro F1,Not available with the current dataset/experimental setup.,Not available with the current dataset/experimental setup.
+Weighted F1,Not available with the current dataset/experimental setup.,Not available with the current dataset/experimental setup.
+Mate retrieval top-1 accuracy,0.029344,0.021587
+Mate retrieval top-5 accuracy,0.095124,0.082181
+Mate retrieval MRR,0.07929,0.077386
+Mate vs random AUROC,0.516694,0.619981
+Mate/random effect size (Cohen's d),0.174438,0.450549
+Feature dimension,137,1536
+Model parameters,0,541109760
+Trainable parameters,0,0
+Training time (s) - no training performed; both are fixed extractors,0,0
+Inference throughput (seq/s),15364.701,434.138
+Inference time per read (ms),0.06508,2.30342
+Storage per embedding (bytes),550.15,6147.52
+Compute device,cpu,cuda

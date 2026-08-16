@@ -1,0 +1,122 @@
+{
+  "stage": "distill_ablation",
+  "rank": "order",
+  "n_labelled": 5773,
+  "n_classes": 5,
+  "alpha_sweep": [
+    {
+      "alpha": 0.0,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.989583,
+      "student_kd_macro_f1": 0.920053,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.2,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.993056,
+      "student_kd_macro_f1": 0.925822,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.3,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.993056,
+      "student_kd_macro_f1": 0.925822,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.990741,
+      "student_kd_macro_f1": 0.911234,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.5,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.991898,
+      "student_kd_macro_f1": 0.91234,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.6,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.991898,
+      "student_kd_macro_f1": 0.91234,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.7,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.990741,
+      "student_kd_macro_f1": 0.910004,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.8,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.989583,
+      "student_kd_macro_f1": 0.90763,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    }
+  ],
+  "temperature_sweep": [
+    {
+      "alpha": 0.4,
+      "temperature": 1.0,
+      "student_kd_accuracy": 0.989583,
+      "student_kd_macro_f1": 0.920053,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 2.0,
+      "student_kd_accuracy": 0.990741,
+      "student_kd_macro_f1": 0.921158,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 3.0,
+      "student_kd_accuracy": 0.991898,
+      "student_kd_macro_f1": 0.923486,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 4.0,
+      "student_kd_accuracy": 0.990741,
+      "student_kd_macro_f1": 0.911234,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 5.0,
+      "student_kd_accuracy": 0.989583,
+      "student_kd_macro_f1": 0.908869,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    },
+    {
+      "alpha": 0.4,
+      "temperature": 6.0,
+      "student_kd_accuracy": 0.989583,
+      "student_kd_macro_f1": 0.908869,
+      "student_alone_accuracy": 0.989583,
+      "student_alone_macro_f1": 0.920053
+    }
+  ]
+}

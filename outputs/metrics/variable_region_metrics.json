@@ -1,0 +1,209 @@
+{
+  "stage": "variable_region",
+  "question": "Does removing the conserved anchor change which representation wins?",
+  "subset": {
+    "subset_name": "pairs_var",
+    "source": "pairs",
+    "reads": 50000,
+    "reads_trimmed": 45024,
+    "reads_left_whole_unassigned_end": 4976,
+    "conserved_block_removed_per_end": {
+      "0": 90,
+      "1": 16
+    },
+    "total_bp_before": 7549719,
+    "total_bp_after": 5258685,
+    "fraction_of_sequence_retained": 0.69654,
+    "mean_length_after": 105.17,
+    "mate2_reverse_complemented": true,
+    "amplicon_end_structure": {
+      "prefix_len": 18,
+      "n_groups": 2,
+      "max_mismatch": 4,
+      "anchor_prefixes": [
+        "AAGGGCACCACAAGAACG",
+        "CGGTCACGTTCGTTGCCT"
+      ],
+      "anchor_read_counts": [
+        20857,
+        12019
+      ],
+      "reads_assigned": 45024,
+      "reads_unassigned": 4976,
+      "fraction_assigned": 0.90048,
+      "group_sizes": {
+        "0": 21225,
+        "1": 23799
+      }
+    },
+    "note": "Diagnostic subset. Trimming discards real sequence and is not a proposed preprocessing default."
+  },
+  "variants": {
+    "foundation_variable_region": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.023227,
+      "top5_accuracy": 0.086879,
+      "top10_accuracy": 0.152571,
+      "mean_reciprocal_rank": 0.077043,
+      "median_rank": 38.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.323,
+      "auroc_mate_vs_random": 0.581519,
+      "mean_cosine_true_mates": -0.063275,
+      "mean_cosine_random_pairs": -0.108538,
+      "cohens_d": 0.311396,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "baseline_variable_region": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.023848,
+      "top5_accuracy": 0.070035,
+      "top10_accuracy": 0.128236,
+      "mean_reciprocal_rank": 0.068094,
+      "median_rank": 51.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.385,
+      "auroc_mate_vs_random": 0.497202,
+      "mean_cosine_true_mates": -0.19537,
+      "mean_cosine_random_pairs": -0.222453,
+      "cohens_d": 0.168997,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "foundation_full_read": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.021587,
+      "top5_accuracy": 0.082181,
+      "top10_accuracy": 0.158245,
+      "mean_reciprocal_rank": 0.077386,
+      "median_rank": 36.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.159,
+      "auroc_mate_vs_random": 0.619981,
+      "mean_cosine_true_mates": -0.105908,
+      "mean_cosine_random_pairs": -0.176303,
+      "cohens_d": 0.450549,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "baseline_full_read": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.029344,
+      "top5_accuracy": 0.095124,
+      "top10_accuracy": 0.134353,
+      "mean_reciprocal_rank": 0.07929,
+      "median_rank": 49.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.934,
+      "auroc_mate_vs_random": 0.516694,
+      "mean_cosine_true_mates": -0.261438,
+      "mean_cosine_random_pairs": -0.288541,
+      "cohens_d": 0.174438,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    }
+  },
+  "significance": {
+    "full_read_foundation_vs_baseline": {
+      "comparable": true,
+      "test": "McNemar exact (paired, same queries)",
+      "n_queries": 22560,
+      "top1_foundation": 0.021587,
+      "top1_baseline": 0.029344,
+      "difference": -0.007757,
+      "difference_percentage_points": -0.7757,
+      "ci95_percentage_points": [
+        -1.0144,
+        -0.537
+      ],
+      "correct_only_by_foundation": 290,
+      "correct_only_by_baseline": 465,
+      "p_value": 2.0126033528774721e-10,
+      "significant_at_0.05": true,
+      "verdict": "baseline is better (p=2.01e-10)"
+    },
+    "variable_region_foundation_vs_baseline": {
+      "comparable": true,
+      "test": "McNemar exact (paired, same queries)",
+      "n_queries": 22560,
+      "top1_foundation": 0.023227,
+      "top1_baseline": 0.023848,
+      "difference": -0.000621,
+      "difference_percentage_points": -0.0621,
+      "ci95_percentage_points": [
+        -0.2997,
+        0.1756
+      ],
+      "correct_only_by_foundation": 367,
+      "correct_only_by_baseline": 381,
+      "p_value": 0.6345831495495604,
+      "significant_at_0.05": false,
+      "verdict": "no significant difference (p=0.635)"
+    },
+    "foundation_full_vs_variable": {
+      "comparable": true,
+      "test": "McNemar exact (paired, same queries)",
+      "n_queries": 22560,
+      "top1_variable_region": 0.023227,
+      "top1_full_read": 0.021587,
+      "difference": 0.00164,
+      "difference_percentage_points": 0.164,
+      "ci95_percentage_points": [
+        -0.0221,
+        0.3501
+      ],
+      "correct_only_by_variable_region": 248,
+      "correct_only_by_full_read": 211,
+      "p_value": 0.09278371517104114,
+      "significant_at_0.05": false,
+      "verdict": "no significant difference (p=0.093)"
+    },
+    "baseline_full_vs_variable": {
+      "comparable": true,
+      "test": "McNemar exact (paired, same queries)",
+      "n_queries": 22560,
+      "top1_variable_region": 0.023848,
+      "top1_full_read": 0.029344,
+      "difference": -0.005496,
+      "difference_percentage_points": -0.5496,
+      "ci95_percentage_points": [
+        -0.7364,
+        -0.3629
+      ],
+      "correct_only_by_variable_region": 169,
+      "correct_only_by_full_read": 293,
+      "p_value": 8.607084071141532e-09,
+      "significant_at_0.05": true,
+      "verdict": "full_read is better (p=8.61e-09)"
+    }
+  },
+  "effect_of_removing_the_anchor": {
+    "foundation_top1_delta": 0.00164,
+    "baseline_top1_delta": -0.005496,
+    "foundation_auroc_delta": -0.038462,
+    "baseline_auroc_delta": -0.019492,
+    "winner_full_read": "baseline",
+    "winner_variable_region": "baseline"
+  }
+}

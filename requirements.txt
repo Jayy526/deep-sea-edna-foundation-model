@@ -1,0 +1,21 @@
+# Versions below are the ones this experiment was actually executed with.
+#
+# For CUDA builds of torch, install from the PyTorch index first, e.g.:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+# This run used torch 2.11.0+cu128 on CUDA 12.8 (NVIDIA RTX 4050 Laptop, 6 GB).
+# The pipeline falls back to CPU float32 automatically if CUDA is unavailable.
+
+torch>=2.11.0
+transformers>=5.15.0
+numpy>=2.5.0
+pandas>=3.0.3
+scikit-learn>=1.9.0
+scipy>=1.18.0
+matplotlib>=3.11.0
+umap-learn>=0.5.12
+pyarrow>=25.0.0
+tqdm>=4.69.0
+psutil>=7.2.2
+
+# Testing only
+pytest>=9.1.1

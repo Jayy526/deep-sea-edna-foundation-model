@@ -1,0 +1,128 @@
+{
+  "measurement": "batch-size sweep, warm-up excluded, CUDA-synchronised",
+  "sequences_per_configuration": 3000,
+  "rows": [
+    {
+      "batch_size": 8,
+      "sequences": 3000,
+      "elapsed_seconds": 8.9116,
+      "sequences_per_second": 336.64,
+      "milliseconds_per_sequence": 2.97054,
+      "peak_gpu_allocated_mb": 1055.88,
+      "peak_gpu_reserved_mb": 1092.0,
+      "process_memory_mb": 2352.39
+    },
+    {
+      "batch_size": 16,
+      "sequences": 3000,
+      "elapsed_seconds": 6.9482,
+      "sequences_per_second": 431.76,
+      "milliseconds_per_sequence": 2.31608,
+      "peak_gpu_allocated_mb": 1070.77,
+      "peak_gpu_reserved_mb": 1112.0,
+      "process_memory_mb": 2355.97
+    },
+    {
+      "batch_size": 32,
+      "sequences": 3000,
+      "elapsed_seconds": 6.3074,
+      "sequences_per_second": 475.63,
+      "milliseconds_per_sequence": 2.10246,
+      "peak_gpu_allocated_mb": 1101.93,
+      "peak_gpu_reserved_mb": 1176.0,
+      "process_memory_mb": 2359.86
+    },
+    {
+      "batch_size": 64,
+      "sequences": 3000,
+      "elapsed_seconds": 6.2329,
+      "sequences_per_second": 481.32,
+      "milliseconds_per_sequence": 2.07763,
+      "peak_gpu_allocated_mb": 1160.38,
+      "peak_gpu_reserved_mb": 1350.0,
+      "process_memory_mb": 2361.31
+    },
+    {
+      "batch_size": 128,
+      "sequences": 3000,
+      "elapsed_seconds": 6.8762,
+      "sequences_per_second": 436.29,
+      "milliseconds_per_sequence": 2.29205,
+      "peak_gpu_allocated_mb": 1281.51,
+      "peak_gpu_reserved_mb": 1860.0,
+      "process_memory_mb": 2364.33
+    },
+    {
+      "batch_size": 256,
+      "sequences": 3000,
+      "elapsed_seconds": 7.0335,
+      "sequences_per_second": 426.53,
+      "milliseconds_per_sequence": 2.34452,
+      "peak_gpu_allocated_mb": 1520.79,
+      "peak_gpu_reserved_mb": 2556.0,
+      "process_memory_mb": 2365.48
+    }
+  ],
+  "best_batch_size": 64,
+  "best_throughput_seq_per_second": 481.32,
+  "encoder": {
+    "name": "genomeocean_500m",
+    "kind": "foundation",
+    "label": "PAPER-DERIVED (same checkpoint as TaxDistill's teacher branch)",
+    "model_id": "pGenomeOcean/GenomeOcean-500M",
+    "revision": "main",
+    "architecture": [
+      "MistralForCausalLM"
+    ],
+    "embedding_dim": 1536,
+    "num_hidden_layers": 14,
+    "vocab_size": 4096,
+    "max_position_embeddings": 32768,
+    "max_tokens_used": 1024,
+    "pooling": "mean",
+    "normalized": false,
+    "model_parameters_total": 541109760,
+    "model_parameters_trainable": 0,
+    "model_parameters_frozen": 541109760,
+    "backbone_frozen": true,
+    "device": "cuda",
+    "dtype": "torch.bfloat16",
+    "attn_implementation": "sdpa",
+    "observed_tokens_per_read": {
+      "n": 19008,
+      "min": 28,
+      "max": 40,
+      "mean": 33.651
+    },
+    "unk_tokens_encountered": 0,
+    "reads_truncated": 0
+  },
+  "environment": {
+    "python": "3.13.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12,
+    "numpy": "2.5.0",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.15.0",
+    "sklearn": "1.9.0",
+    "umap": "0.5.12",
+    "pandas": "3.0.3",
+    "pyarrow": "25.0.0",
+    "cuda_available": true,
+    "cuda_version": "12.8",
+    "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_total_mb": 6140.5
+  },
+  "full_dataset_projection": {
+    "label": "PROJECTION for GenomeOcean-500M over all QC-passed reads (derived from measured throughput, not executed)",
+    "full_dataset_reads": 3018522,
+    "measured_throughput_seq_per_second": 481.32,
+    "projected_seconds": 6271.3,
+    "projected_minutes": 104.52,
+    "projected_hours": 1.742,
+    "projected_embedding_storage_bytes": 18545799168,
+    "projected_embedding_storage_gb": 17.272,
+    "basis": "linear extrapolation of measured steady-state throughput at the chosen batch size"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "subset_name": "pairs",
+  "layout": "row 2i and row 2i+1 are the two mates of pair i",
+  "requested_pairs": 25000,
+  "actual_pairs": 25000,
+  "reads": 50000,
+  "sampling": "systematic (fixed stride over clusters whose BOTH mates passed QC)",
+  "stride": 60,
+  "cluster_population": 1513460,
+  "scope": "SUBSET (not the full dataset)",
+  "elapsed_seconds": 36.82,
+  "seed": 42
+}

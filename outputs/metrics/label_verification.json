@@ -1,0 +1,45 @@
+{
+  "question": "Does reliable ground-truth taxonomy exist for these reads?",
+  "checks": {
+    "configured_label_file": {
+      "path": null,
+      "exists": false,
+      "note": "classification.labels_path is not set in the config."
+    },
+    "fasta_headers": {
+      "headers_inspected": 20000,
+      "headers_matching_taxonomy_pattern": 0,
+      "example_headers": [
+        "SRR26872904.1 LH00271:11:225VV3LT3:5:1101:23320:1032 length=151",
+        "SRR26872904.1 LH00271:11:225VV3LT3:5:1101:23320:1032 length=151",
+        "SRR26872904.2 LH00271:11:225VV3LT3:5:1101:36727:1032 length=151"
+      ],
+      "distinct_token_counts": [
+        3
+      ],
+      "conclusion": "Headers carry only a run accession, an Illumina cluster coordinate and a declared length. No taxonomic field is present."
+    },
+    "sibling_annotation_files": {
+      "searched": [
+        "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih",
+        "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih\\SRR26872904.fasta"
+      ],
+      "candidates_found": [
+        "_paper.txt",
+        "requirements.txt"
+      ],
+      "conclusion": "Candidate files found; none are automatically trusted as ground truth."
+    }
+  },
+  "labels_available": false,
+  "labels_path": null,
+  "n_labelled_reads": 0,
+  "n_classes": 0,
+  "consequence": "Supervised taxonomic classification cannot be scientifically evaluated on this dataset. The pipeline therefore completes the embedding stage and reports unsupervised structural analysis only. Classification metrics, confusion matrices, training curves, and calibration diagrams are 'Not available with the current dataset/experimental setup.'",
+  "what_would_be_needed": [
+    "A per-read taxonomic assignment table (read_id -> taxon) produced by an independent reference-based classifier such as Kraken2, MMseqs2 or Metabuli -- the same tools TaxDistill corrects the output of.",
+    "OR a mock-community / CAMI2-style dataset where the true source genome of every read is known by construction.",
+    "OR curated reference amplicon sequences (e.g. SILVA/PR2 for 18S) with assignments at a stated confidence threshold.",
+    "In every case the label source, its version, and its own error rate must be recorded, because TaxDistill's premise is that these labels are noisy."
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "stage": "community",
+  "unit": "exact sequence variant",
+  "variants_encoded": 47082,
+  "reads_represented": 2819603,
+  "amplicon_end_structure": {
+    "prefix_len": 18,
+    "n_groups": 2,
+    "max_mismatch": 4,
+    "anchor_prefixes": [
+      "AAGGGCACCACAAGAACG",
+      "CGGTCACGTTCGTTGCCT"
+    ],
+    "anchor_read_counts": [
+      14480,
+      7427
+    ],
+    "reads_assigned": 32588,
+    "reads_unassigned": 14494,
+    "fraction_assigned": 0.692154,
+    "group_sizes": {
+      "0": 15583,
+      "1": 17005
+    }
+  },
+  "representations": {
+    "foundation_model": {
+      "n_variants_clustered": 47082,
+      "reads_represented": 2819603,
+      "k_sweep": [
+        {
+          "k": 5,
+          "silhouette": 0.177143,
+          "inertia": 49497012.808,
+          "largest_cluster_read_share": 0.315892
+        },
+        {
+          "k": 10,
+          "silhouette": 0.206678,
+          "inertia": 39954386.569,
+          "largest_cluster_read_share": 0.227915
+        },
+        {
+          "k": 20,
+          "silhouette": 0.154971,
+          "inertia": 34368979.176,
+          "largest_cluster_read_share": 0.198429
+        },
+        {
+          "k": 30,
+          "silhouette": 0.176373,
+          "inertia": 31485638.41,
+          "largest_cluster_read_share": 0.198335
+        },
+        {
+          "k": 50,
+          "silhouette": 0.177253,
+          "inertia": 28194105.924,
+          "largest_cluster_read_share": 0.175946
+        },
+        {
+          "k": 75,
+          "silhouette": 0.147302,
+          "inertia": 25790415.162,
+          "largest_cluster_read_share": 0.173667
+        },
+        {
+          "k": 100,
+          "silhouette": 0.16793,
+          "inertia": 24001634.495,
+          "largest_cluster_read_share": 0.174473
+        }
+      ],
+      "selected_k": 10,
+      "selection_criterion": "highest silhouette over the k grid",
+      "cluster_profile": [
+        {
+          "cluster": 8,
+          "n_variants": 5948,
+          "variant_share": 0.126333,
+          "n_reads": 642631,
+          "read_share": 0.227915,
+          "mean_gc": 52.373,
+          "sd_gc": 1.124,
+          "top_variant_reads": 212880,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 1.0
+        },
+        {
+          "cluster": 2,
+          "n_variants": 7031,
+          "variant_share": 0.149335,
+          "n_reads": 639839,
+          "read_share": 0.226925,
+          "mean_gc": 55.012,
+          "sd_gc": 1.642,
+          "top_variant_reads": 344733,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 1.0
+        },
+        {
+          "cluster": 4,
+          "n_variants": 5765,
+          "variant_share": 0.122446,
+          "n_reads": 500032,
+          "read_share": 0.177341,
+          "mean_gc": 50.228,
+          "sd_gc": 1.318,
+          "top_variant_reads": 247743,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9994
+        },
+        {
+          "cluster": 1,
+          "n_variants": 3906,
+          "variant_share": 0.082962,
+          "n_reads": 497063,
+          "read_share": 0.176288,
+          "mean_gc": 49.463,
+          "sd_gc": 1.189,
+          "top_variant_reads": 397610,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 1.0
+        },
+        {
+          "cluster": 3,
+          "n_variants": 7232,
+          "variant_share": 0.153604,
+          "n_reads": 181895,
+          "read_share": 0.064511,
+          "mean_gc": 44.193,
+          "sd_gc": 3.885,
+          "top_variant_reads": 59358,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.9929
+        },
+        {
+          "cluster": 5,
+          "n_variants": 4758,
+          "variant_share": 0.101058,
+          "n_reads": 168207,
+          "read_share": 0.059656,
+          "mean_gc": 49.602,
+          "sd_gc": 1.679,
+          "top_variant_reads": 52965,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 1.0
+        },
+        {
+          "cluster": 6,
+          "n_variants": 4682,
+          "variant_share": 0.099444,
+          "n_reads": 91159,
+          "read_share": 0.03233,
+          "mean_gc": 53.867,
+          "sd_gc": 5.189,
+          "top_variant_reads": 20972,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.8529
+        },
+        {
+          "cluster": 7,
+          "n_variants": 4721,
+          "variant_share": 0.100272,
+          "n_reads": 85918,
+          "read_share": 0.030472,
+          "mean_gc": 45.619,
+          "sd_gc": 3.338,
+          "top_variant_reads": 10289,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9979
+        },
+        {
+          "cluster": 9,
+          "n_variants": 2907,
+          "variant_share": 0.061743,
+          "n_reads": 12442,
+          "read_share": 0.004413,
+          "mean_gc": 64.281,
+          "sd_gc": 6.007,
+          "top_variant_reads": 1556,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.7555
+        },
+        {
+          "cluster": 0,
+          "n_variants": 132,
+          "variant_share": 0.002804,
+          "n_reads": 417,
+          "read_share": 0.000148,
+          "mean_gc": 70.886,
+          "sd_gc": 3.559,
+          "top_variant_reads": 39,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.7143
+        }
+      ],
+      "clusters_for_50pct_reads": 3,
+      "clusters_for_90pct_reads": 6,
+      "largest_cluster_read_share": 0.227915,
+      "mean_amplicon_end_purity": 0.93129,
+      "caveat": "Clusters are groups of similar sequences, not taxa. No cluster is named or assigned a taxonomic identity, because this dataset has no taxonomy. Cluster count is a property of the embedding and the selected k, not a species estimate.",
+      "seed": 42,
+      "structure_vs_measured_properties": {
+        "gc_variance_explained_by_clusters": 0.730854,
+        "log_abundance_variance_explained_by_clusters": 0.027208,
+        "agreement_with_amplicon_end_ari": 0.241048,
+        "n_variants_with_assigned_end": 32588,
+        "note": "GC and amplicon end are measured sequence properties, not labels. High variance explained means the partition is structured rather than arbitrary; it says nothing about taxonomic correctness."
+      }
+    },
+    "baseline": {
+      "n_variants_clustered": 47082,
+      "reads_represented": 2819603,
+      "k_sweep": [
+        {
+          "k": 5,
+          "silhouette": 0.222296,
+          "inertia": 4108786.166,
+          "largest_cluster_read_share": 0.319236
+        },
+        {
+          "k": 10,
+          "silhouette": 0.266213,
+          "inertia": 3285818.664,
+          "largest_cluster_read_share": 0.22839
+        },
+        {
+          "k": 20,
+          "silhouette": 0.235266,
+          "inertia": 2808489.048,
+          "largest_cluster_read_share": 0.198965
+        },
+        {
+          "k": 30,
+          "silhouette": 0.242422,
+          "inertia": 2541389.378,
+          "largest_cluster_read_share": 0.198921
+        },
+        {
+          "k": 50,
+          "silhouette": 0.255038,
+          "inertia": 2210324.721,
+          "largest_cluster_read_share": 0.197648
+        },
+        {
+          "k": 75,
+          "silhouette": 0.213201,
+          "inertia": 1995492.564,
+          "largest_cluster_read_share": 0.176134
+        },
+        {
+          "k": 100,
+          "silhouette": 0.224692,
+          "inertia": 1855957.781,
+          "largest_cluster_read_share": 0.17607
+        }
+      ],
+      "selected_k": 10,
+      "selection_criterion": "highest silhouette over the k grid",
+      "cluster_profile": [
+        {
+          "cluster": 4,
+          "n_variants": 6223,
+          "variant_share": 0.132174,
+          "n_reads": 643969,
+          "read_share": 0.22839,
+          "mean_gc": 52.253,
+          "sd_gc": 1.338,
+          "top_variant_reads": 212880,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.9998
+        },
+        {
+          "cluster": 1,
+          "n_variants": 6805,
+          "variant_share": 0.144535,
+          "n_reads": 638630,
+          "read_share": 0.226496,
+          "mean_gc": 55.181,
+          "sd_gc": 1.37,
+          "top_variant_reads": 344733,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9993
+        },
+        {
+          "cluster": 8,
+          "n_variants": 5834,
+          "variant_share": 0.123911,
+          "n_reads": 500729,
+          "read_share": 0.177588,
+          "mean_gc": 50.28,
+          "sd_gc": 1.149,
+          "top_variant_reads": 247743,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9995
+        },
+        {
+          "cluster": 3,
+          "n_variants": 3988,
+          "variant_share": 0.084703,
+          "n_reads": 497460,
+          "read_share": 0.176429,
+          "mean_gc": 49.436,
+          "sd_gc": 1.275,
+          "top_variant_reads": 397610,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 1.0
+        },
+        {
+          "cluster": 7,
+          "n_variants": 7486,
+          "variant_share": 0.158999,
+          "n_reads": 209295,
+          "read_share": 0.074229,
+          "mean_gc": 46.066,
+          "sd_gc": 3.69,
+          "top_variant_reads": 59358,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.9995
+        },
+        {
+          "cluster": 5,
+          "n_variants": 4866,
+          "variant_share": 0.103352,
+          "n_reads": 167811,
+          "read_share": 0.059516,
+          "mean_gc": 49.65,
+          "sd_gc": 1.723,
+          "top_variant_reads": 52965,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9974
+        },
+        {
+          "cluster": 0,
+          "n_variants": 4469,
+          "variant_share": 0.09492,
+          "n_reads": 83556,
+          "read_share": 0.029634,
+          "mean_gc": 45.019,
+          "sd_gc": 2.988,
+          "top_variant_reads": 10289,
+          "dominant_amplicon_end": 0,
+          "amplicon_end_purity": 0.9976
+        },
+        {
+          "cluster": 2,
+          "n_variants": 2404,
+          "variant_share": 0.05106,
+          "n_reads": 37353,
+          "read_share": 0.013248,
+          "mean_gc": 51.254,
+          "sd_gc": 6.602,
+          "top_variant_reads": 20972,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.5947
+        },
+        {
+          "cluster": 9,
+          "n_variants": 4279,
+          "variant_share": 0.090884,
+          "n_reads": 22757,
+          "read_share": 0.008071,
+          "mean_gc": 63.201,
+          "sd_gc": 5.403,
+          "top_variant_reads": 1589,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 0.613
+        },
+        {
+          "cluster": 6,
+          "n_variants": 728,
+          "variant_share": 0.015462,
+          "n_reads": 18043,
+          "read_share": 0.006399,
+          "mean_gc": 38.494,
+          "sd_gc": 2.305,
+          "top_variant_reads": 5912,
+          "dominant_amplicon_end": 1,
+          "amplicon_end_purity": 1.0
+        }
+      ],
+      "clusters_for_50pct_reads": 3,
+      "clusters_for_90pct_reads": 6,
+      "largest_cluster_read_share": 0.22839,
+      "mean_amplicon_end_purity": 0.92008,
+      "caveat": "Clusters are groups of similar sequences, not taxa. No cluster is named or assigned a taxonomic identity, because this dataset has no taxonomy. Cluster count is a property of the embedding and the selected k, not a species estimate.",
+      "seed": 42,
+      "structure_vs_measured_properties": {
+        "gc_variance_explained_by_clusters": 0.743974,
+        "log_abundance_variance_explained_by_clusters": 0.029472,
+        "agreement_with_amplicon_end_ari": 0.254452,
+        "n_variants_with_assigned_end": 32588,
+        "note": "GC and amplicon end are measured sequence properties, not labels. High variance explained means the partition is structured rather than arbitrary; it says nothing about taxonomic correctness."
+      }
+    }
+  },
+  "partition_agreement": {
+    "n_variants": 47082,
+    "adjusted_rand_index": 0.785725,
+    "adjusted_mutual_information": 0.817566,
+    "fowlkes_mallows": 0.810867,
+    "n_clusters_a": 10,
+    "n_clusters_b": 10,
+    "interpretation": "Chance-corrected: 0 = agreement no better than random, 1 = identical partitions. A low value means the two representations disagree about which variants belong together -- with no labels, neither can be declared correct."
+  }
+}

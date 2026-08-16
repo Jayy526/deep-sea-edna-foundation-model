@@ -1,0 +1,176 @@
+{
+  "experiment_name": "deep_sea_edna_stage1",
+  "seed": 42,
+  "paths": {
+    "fasta": "SRR26872904.fasta/SRR26872904.fasta",
+    "outputs": "outputs"
+  },
+  "preprocessing": {
+    "batch_size": 50000,
+    "max_records": null,
+    "progress_every": 250000,
+    "max_position_tracked": 512,
+    "parquet_row_group": 250000
+  },
+  "qc": {
+    "_doc": "Every filter is explicit and configurable. Set a value to null to disable that filter.",
+    "min_length": 100,
+    "max_length": null,
+    "valid_alphabet": "ACGT",
+    "ambiguity_codes": "NRYKMSWBDHV",
+    "ambiguity_policy": "longest_unambiguous_run",
+    "max_ambiguous_fraction": 0.1,
+    "min_effective_length": 100,
+    "max_homopolymer_fraction": 0.9,
+    "max_single_base_fraction": 0.9,
+    "min_gc": null,
+    "max_gc": null
+  },
+  "subset": {
+    "_doc": "Subset sizes are separate concerns: encoding cost vs visualization cost. Never confuse them with the full dataset size.",
+    "strategy": "systematic",
+    "test_run_size": 2000,
+    "encode_size": 200000,
+    "pair_subset_pairs": 25000,
+    "visualization_size": 20000
+  },
+  "encoder": {
+    "backend": "genomeocean",
+    "model_id": "pGenomeOcean/GenomeOcean-500M",
+    "revision": "main",
+    "pooling": "mean",
+    "dtype": "bfloat16",
+    "device": "auto",
+    "attn_implementation": "sdpa",
+    "batch_size": 64,
+    "max_tokens": 1024,
+    "shard_size": 25000,
+    "normalize": false
+  },
+  "baseline": {
+    "backend": "kmer_tnf",
+    "k": 4,
+    "canonical": true,
+    "include_gc": true,
+    "include_length": false,
+    "batch_size": 50000,
+    "shard_size": 250000
+  },
+  "analysis": {
+    "pca_components": 50,
+    "umap_neighbors": 30,
+    "umap_min_dist": 0.1,
+    "umap_metric": "euclidean",
+    "run_tsne": false,
+    "kmeans_k_grid": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10,
+      15,
+      20
+    ],
+    "silhouette_sample": 10000,
+    "knn_k": 20,
+    "retrieval_distractors": 99
+  },
+  "dereplication": {
+    "_doc": "Stage 2. Exact-sequence variants over the FULL dataset. Not denoised ASVs, not OTUs.",
+    "canonical": false,
+    "keep_top_variants": 50000,
+    "min_count_for_representative": 2
+  },
+  "community": {
+    "_doc": "Stage 2 unsupervised community structure. Encoding is over VARIANTS, not reads.",
+    "encode_variants": 50000,
+    "cluster_k_grid": [
+      5,
+      10,
+      20,
+      30,
+      50,
+      75,
+      100
+    ],
+    "rarefaction_points": 40,
+    "visualization_variants": 20000
+  },
+  "performance": {
+    "batch_size_sweep": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "sweep_reads": 3000
+  },
+  "classification": {
+    "_doc": "Only used if verified ground-truth taxonomic labels are supplied. See analysis/labels.py.",
+    "labels_path": null,
+    "model": "linear",
+    "hidden_dim": 256,
+    "epochs": 60,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 256,
+    "split": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "embedding_stores": {
+      "foundation_model": "variants_genomeocean",
+      "baseline": "variants_kmer4"
+    },
+    "min_class_size": 30
+  },
+  "taxonomy": {
+    "_doc": "Stage 3. Reference-derived NOISY labels, not ground truth. See taxonomy/reference.py.",
+    "pr2_fasta": "data/reference/pr2_5.0.0_SSU.fasta.gz",
+    "pr2_tax": "data/reference/pr2_5.0.0_SSU.tax.gz",
+    "reference_parquet": "data/reference/amplicon_reference.parquet",
+    "region_length": 151,
+    "min_region_length": 100,
+    "kmer_size": 8,
+    "rank": "order",
+    "bootstrap": 100,
+    "confidence_threshold": 0.7,
+    "amplicon_end": 0,
+    "ranks": {
+      "class": 0.7,
+      "order": 0.7
+    }
+  },
+  "distillation": {
+    "_doc": "Stage 4. TaxDistill knowledge distillation. Teacher=frozen GenomeOcean+head, student=TNF+abundance MLP.",
+    "alpha": 0.4,
+    "temperature": 4.0,
+    "epochs": 60,
+    "include_abundance": true,
+    "alpha_grid": [
+      0.0,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "temperature_grid": [
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0
+    ],
+    "ablation_rank": "order",
+    "teacher_head": "mlp"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "amplicon_end_structure": {
+    "prefix_len": 18,
+    "n_groups": 2,
+    "max_mismatch": 4,
+    "anchor_prefixes": [
+      "AAGGGCACCACAAGAACG",
+      "CGGTCACGTTCGTTGCCT"
+    ],
+    "anchor_read_counts": [
+      20857,
+      12019
+    ],
+    "reads_assigned": 45024,
+    "reads_unassigned": 4976,
+    "fraction_assigned": 0.90048,
+    "group_sizes": {
+      "0": 21225,
+      "1": 23799
+    }
+  },
+  "variants": {
+    "foundation_original": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.011126,
+      "top5_accuracy": 0.049113,
+      "top10_accuracy": 0.103191,
+      "mean_reciprocal_rank": 0.055101,
+      "median_rank": 40.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 1.113,
+      "auroc_mate_vs_random": 0.56417,
+      "mean_cosine_true_mates": -0.182944,
+      "mean_cosine_random_pairs": -0.214869,
+      "cohens_d": 0.2575,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "foundation_mate2_revcomp": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.021587,
+      "top5_accuracy": 0.082181,
+      "top10_accuracy": 0.158245,
+      "mean_reciprocal_rank": 0.077386,
+      "median_rank": 36.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.159,
+      "auroc_mate_vs_random": 0.619981,
+      "mean_cosine_true_mates": -0.105908,
+      "mean_cosine_random_pairs": -0.176303,
+      "cohens_d": 0.450549,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "baseline_original": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.029344,
+      "top5_accuracy": 0.095124,
+      "top10_accuracy": 0.134353,
+      "mean_reciprocal_rank": 0.07929,
+      "median_rank": 49.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.934,
+      "auroc_mate_vs_random": 0.516694,
+      "mean_cosine_true_mates": -0.261438,
+      "mean_cosine_random_pairs": -0.288541,
+      "cohens_d": 0.174438,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    },
+    "baseline_mate2_revcomp": {
+      "benchmark": "paired-end mate retrieval (label-free)",
+      "variant": "amplicon-end-controlled",
+      "distractor_sampling": "distractors drawn only from reads sharing the true mate's amplicon end",
+      "n_pairs": 22560,
+      "n_distractors_per_query": 99,
+      "similarity": "cosine on standardized, L2-normalised embeddings",
+      "top1_accuracy": 0.029344,
+      "top5_accuracy": 0.095124,
+      "top10_accuracy": 0.134353,
+      "mean_reciprocal_rank": 0.07929,
+      "median_rank": 49.0,
+      "chance_top1_accuracy": 0.01,
+      "lift_over_chance": 2.934,
+      "auroc_mate_vs_random": 0.516694,
+      "mean_cosine_true_mates": -0.261438,
+      "mean_cosine_random_pairs": -0.288541,
+      "cohens_d": 0.174438,
+      "seed": 42,
+      "caveat": "Measures same-fragment / same-locus signal, not taxonomic accuracy. Mates of one fragment may share locus context; this is necessary but not sufficient evidence of species-level discriminability."
+    }
+  },
+  "baseline_reverse_complement_invariance": {
+    "claim": "canonical k-mer frequencies are invariant under reverse complement",
+    "max_abs_difference_on_transformed_rows": 0.0,
+    "rows_checked": 25000,
+    "verified": true
+  }
+}

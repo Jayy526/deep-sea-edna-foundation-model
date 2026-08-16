@@ -1,0 +1,28 @@
+{
+  "stage": "reference",
+  "source_database": "PR2 5.0.0 SSU (mothur release)",
+  "why_not_silva": "SILVA 138.2 SSU NR99 was downloaded and measured first: of 510,495 sequences it contains only 69 Foraminifera (67 carrying the primer site), too few to train a classifier. PR2 carries 1,547.",
+  "primer": {
+    "name": "s14F1 (Foraminifera-specific, 18S 37F hypervariable region)",
+    "core_used": "GGGCACCACAAGAACG",
+    "matching": "exact match of the 16-mer core"
+  },
+  "sequences_scanned": 221085,
+  "sequences_with_primer_site": 1547,
+  "references_kept": 1545,
+  "dropped_region_too_short": 2,
+  "region_length": 151,
+  "lineages": {
+    "class": 4,
+    "order": 19,
+    "family": 71,
+    "genus": 157
+  },
+  "class_breakdown": {
+    "Globothalamea": 1161,
+    "Monothalamids": 233,
+    "Tubothalamea": 113,
+    "Foraminifera_X": 38
+  },
+  "limitation": "1,547 references is a small database. Coverage of deep-sea benthic Foraminifera is known to be poor, so a substantial share of query variants is expected to be unassignable. Labels derived here are incomplete and noisy by construction."
+}
