@@ -159,7 +159,7 @@ def assign(cfg: dict, force: bool = False, rank: str | None = None,
         "read_weighted_assignment_rate": round(reads_assigned / reads_total, 6)
         if reads_total
         else 0,
-        "labels_path": str(out_path),
+        "labels_path": cfgutil.portable_path(out_path),
     }
     cfgutil.save_json(
         metrics, cfgutil.output_dir(cfg, "metrics") / f"taxonomy_metrics_{rank}.json"

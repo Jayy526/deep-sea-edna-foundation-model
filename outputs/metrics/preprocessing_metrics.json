@@ -62,5 +62,5 @@
     "gpu_total_mb": 6140.5
   },
   "seed": 42,
-  "config_path": "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih\\configs\\default.json"
+  "config_path": "configs/default.json"
 }

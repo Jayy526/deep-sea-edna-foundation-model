@@ -65,5 +65,5 @@
   "reads_represented_by_considered_variants": 1229809,
   "reads_assigned": 184537,
   "read_weighted_assignment_rate": 0.150053,
-  "labels_path": "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih\\data\\reference\\variant_labels_order.parquet"
+  "labels_path": "data/reference/variant_labels_order.parquet"
 }

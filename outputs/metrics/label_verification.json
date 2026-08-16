@@ -21,8 +21,8 @@
     },
     "sibling_annotation_files": {
       "searched": [
-        "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih",
-        "C:\\Users\\Jayyraj Mehta\\OneDrive\\Desktop\\Sih\\SRR26872904.fasta"
+        ".",
+        "SRR26872904.fasta"
       ],
       "candidates_found": [
         "_paper.txt",

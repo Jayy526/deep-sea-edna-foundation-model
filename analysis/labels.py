@@ -51,14 +51,14 @@ def verify(cfg: dict, n_headers: int = 20000) -> dict[str, Any]:
     if configured:
         path = cfgutil.resolve_path(configured)
         result["checks"]["configured_label_file"] = {
-            "path": str(path),
+            "path": cfgutil.portable_path(path),
             "exists": path.exists(),
         }
         if path.exists():
             labels = load_label_file(path)
             result.update(
                 labels_available=len(labels) > 0,
-                labels_path=str(path),
+                labels_path=cfgutil.portable_path(path),
                 n_labelled_reads=len(labels),
                 n_classes=len(set(labels.values())),
             )
@@ -94,7 +94,9 @@ def verify(cfg: dict, n_headers: int = 20000) -> dict[str, Any]:
             if child.is_file() and child.suffix.lower() in CANDIDATE_SUFFIXES:
                 siblings.append(str(child.name))
     result["checks"]["sibling_annotation_files"] = {
-        "searched": sorted({str(d) for d in (fasta.parent, cfgutil.PROJECT_ROOT)}),
+        "searched": sorted(
+            {cfgutil.portable_path(d) or "." for d in (fasta.parent, cfgutil.PROJECT_ROOT)}
+        ),
         "candidates_found": sorted(set(siblings)),
         "conclusion": "No taxonomic annotation file accompanies the FASTA."
         if not siblings

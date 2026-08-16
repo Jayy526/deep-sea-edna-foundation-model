@@ -23,6 +23,22 @@ def resolve_path(value: str | Path) -> Path:
     return path if path.is_absolute() else (PROJECT_ROOT / path)
 
 
+def portable_path(value: str | Path) -> str:
+    """Render a path for storage in a metrics file.
+
+    Absolute paths are made relative to the project root and POSIX-separated.
+    Metrics files are committed and published, so an absolute path would leak
+    the machine's directory layout (and typically the user's name) into the
+    public record while adding nothing reproducible.
+    """
+    path = Path(value)
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        # Outside the project tree: keep only the final component.
+        return path.name
+
+
 def load_config(path: str | Path | None = None, overrides: dict | None = None) -> dict:
     """Load a JSON config, optionally applying dotted-key overrides."""
     cfg_path = Path(path) if path else DEFAULT_CONFIG
@@ -30,7 +46,7 @@ def load_config(path: str | Path | None = None, overrides: dict | None = None) -
         cfg_path = resolve_path(cfg_path)
     with open(cfg_path, "r", encoding="utf-8") as handle:
         cfg = json.load(handle)
-    cfg["_config_path"] = str(cfg_path)
+    cfg["_config_path"] = portable_path(cfg_path)
     for key, value in (overrides or {}).items():
         set_nested(cfg, key, value)
     return cfg
