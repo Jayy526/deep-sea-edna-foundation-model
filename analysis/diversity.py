@@ -33,6 +33,69 @@ def _spectrum_arrays(spectrum: dict[str, int]) -> tuple[np.ndarray, np.ndarray]:
     return k, f
 
 
+def chao1_confidence_interval(
+    richness: int, singletons: int, doubletons: int, z: float = 1.96
+) -> dict[str, Any]:
+    """Analytic variance and log-normal confidence interval for the Chao1 estimate.
+
+    A richness estimate without an interval invites over-reading. Chao1 here is
+    already flagged as an upper bound on molecular diversity; the interval makes
+    the sampling uncertainty explicit rather than implicit.
+
+    The point estimate uses the bias-corrected form (matching
+    ``diversity_from_spectrum``)::
+
+        S_chao1 = S_obs + f1 (f1 - 1) / (2 (f2 + 1))
+
+    and its estimated variance is the standard bias-corrected expression, valid
+    for f2 = 0 as well as f2 > 0 (Chiu, Wang, Walther & Chao 2014, eq. 3a;
+    the same formula EstimateS and vegan report)::
+
+        var = f1(f1-1)/(2(f2+1))
+            + f1(2 f1 - 1)^2 / (4 (f2+1)^2)
+            + f1^2 f2 (f1-1)^2 / (4 (f2+1)^4)
+
+    The interval is the log-normal one of Chao (1987), built on the number of
+    *unseen* variants ``T = S_chao1 - S_obs`` so the lower bound can never drop
+    below what was actually observed::
+
+        C = exp( z * sqrt( ln(1 + var / T^2) ) )
+        CI = [ S_obs + T / C ,  S_obs + T * C ]
+
+    When there are no singletons (f1 = 0) the estimator adds nothing to S_obs and
+    has zero variance, so the interval collapses to ``[S_obs, S_obs]``.
+    """
+    f1 = float(singletons)
+    f2 = float(doubletons)
+    s_obs = float(richness)
+
+    d = f2 + 1.0
+    t = f1 * (f1 - 1.0) / (2.0 * d)          # estimated unseen variants
+    variance = (
+        f1 * (f1 - 1.0) / (2.0 * d)
+        + f1 * (2.0 * f1 - 1.0) ** 2 / (4.0 * d**2)
+        + f1**2 * f2 * (f1 - 1.0) ** 2 / (4.0 * d**4)
+    )
+
+    if t > 0.0 and variance > 0.0:
+        c = math.exp(z * math.sqrt(math.log1p(variance / (t * t))))
+        lower = s_obs + t / c
+        upper = s_obs + t * c
+    else:
+        # No singletons: nothing is extrapolated, so there is nothing to bound.
+        lower = upper = s_obs + t
+
+    return {
+        "chao1_variance": round(variance, 6),
+        "chao1_ci95_lower": round(lower, 2),
+        "chao1_ci95_upper": round(upper, 2),
+        "chao1_ci_method": (
+            "log-normal 95% CI (Chao 1987) on the bias-corrected estimator; "
+            "lower bound is constrained to be >= observed richness"
+        ),
+    }
+
+
 def diversity_from_spectrum(spectrum: dict[str, int]) -> dict[str, Any]:
     """All indices computable from a frequency spectrum."""
     k, f = _spectrum_arrays(spectrum)
@@ -52,6 +115,7 @@ def diversity_from_spectrum(spectrum: dict[str, int]) -> dict[str, Any]:
 
     # Chao1 (bias-corrected form; valid when doubletons == 0 too)
     chao1 = richness + (singletons * (singletons - 1)) / (2 * (doubletons + 1))
+    chao1_ci = chao1_confidence_interval(richness, singletons, doubletons)
     # Good's coverage: estimated fraction of the community already sampled
     goods_coverage = 1.0 - (singletons / n_reads)
 
@@ -81,12 +145,17 @@ def diversity_from_spectrum(spectrum: dict[str, int]) -> dict[str, Any]:
         "hill_q2_inverse_simpson": round(hill2, 4),
         "chao1_estimated_richness": round(float(chao1), 2),
         "chao1_over_observed": round(float(chao1) / richness, 4),
+        "chao1_variance": chao1_ci["chao1_variance"],
+        "chao1_ci95_lower": chao1_ci["chao1_ci95_lower"],
+        "chao1_ci95_upper": chao1_ci["chao1_ci95_upper"],
+        "chao1_ci_method": chao1_ci["chao1_ci_method"],
         "goods_coverage": round(goods_coverage, 8),
         "most_abundant_variant_reads": max_k,
         "most_abundant_variant_share": round(top_share, 8),
         "interpretation": {
             "hill_q1": "Number of equally-common variants that would give the same Shannon entropy.",
             "chao1": "Lower-bound estimate of true richness given the singleton/doubleton ratio.",
+            "chao1_ci95": "Log-normal 95% confidence interval on the Chao1 estimate; its width reflects how much the singleton/doubleton counts constrain the extrapolation.",
             "goods_coverage": "Estimated fraction of the community represented by the sample.",
             "caveat": (
                 "Richness is over exact sequence variants, not taxa. Sequencing error "

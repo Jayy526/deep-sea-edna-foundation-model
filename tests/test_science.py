@@ -84,6 +84,67 @@ def test_chao1_handles_zero_doubletons():
     assert result["chao1_estimated_richness"] == pytest.approx(7 + (5 * 4) / 2, abs=1e-6)
 
 
+def test_chao1_confidence_interval_matches_published_formula():
+    """Variance and log-normal CI recomputed by hand from the published formulae.
+
+    Estimator, variance (Chiu et al. 2014) and log-normal interval (Chao 1987)
+    are each written out independently here, so agreement checks the code rather
+    than the code checking itself.
+    """
+    spectrum = {"1": 10, "2": 4, "7": 3}  # f1=10, f2=4, S_obs=17
+    result = diversity.diversity_from_spectrum(spectrum)
+
+    f1, f2, s_obs = 10.0, 4.0, 17.0
+    d = f2 + 1.0
+    t = f1 * (f1 - 1.0) / (2.0 * d)  # 9.0, the extrapolated unseen count
+    variance = (
+        f1 * (f1 - 1.0) / (2.0 * d)
+        + f1 * (2.0 * f1 - 1.0) ** 2 / (4.0 * d**2)
+        + f1**2 * f2 * (f1 - 1.0) ** 2 / (4.0 * d**4)
+    )
+    c = math.exp(1.96 * math.sqrt(math.log(1.0 + variance / (t * t))))
+    lower = s_obs + t / c
+    upper = s_obs + t * c
+
+    assert variance == pytest.approx(58.06, abs=1e-9)  # 9 + 36.1 + 12.96
+    assert result["chao1_variance"] == pytest.approx(variance, abs=1e-2)
+    assert result["chao1_ci95_lower"] == pytest.approx(lower, abs=1e-2)
+    assert result["chao1_ci95_upper"] == pytest.approx(upper, abs=1e-2)
+
+
+def test_chao1_ci_brackets_the_estimate_and_never_dips_below_observed():
+    """The interval must contain the point estimate, and its lower bound must not
+    fall below the richness actually observed -- the log-normal construction
+    exists precisely to guarantee the latter."""
+    for spectrum in ({"1": 10, "2": 4, "7": 3}, {"1": 5, "9": 2}, {"1": 200, "2": 30, "3": 5}):
+        result = diversity.diversity_from_spectrum(spectrum)
+        assert result["chao1_ci95_lower"] >= result["observed_richness_variants"] - 1e-6
+        assert result["chao1_ci95_lower"] <= result["chao1_estimated_richness"] + 1e-6
+        assert result["chao1_estimated_richness"] <= result["chao1_ci95_upper"] + 1e-6
+
+
+def test_chao1_ci_collapses_when_there_are_no_singletons():
+    """With f1=0 the estimator adds nothing to S_obs and has zero variance, so the
+    interval must collapse to a point at the observed richness."""
+    spectrum = {"2": 3, "5": 2}  # f1=0, S_obs=5
+    result = diversity.diversity_from_spectrum(spectrum)
+    assert result["singletons"] == 0
+    assert result["chao1_variance"] == pytest.approx(0.0, abs=1e-9)
+    assert result["chao1_estimated_richness"] == pytest.approx(5.0, abs=1e-9)
+    assert result["chao1_ci95_lower"] == pytest.approx(5.0, abs=1e-9)
+    assert result["chao1_ci95_upper"] == pytest.approx(5.0, abs=1e-9)
+
+
+def test_chao1_ci_widens_when_extrapolation_is_less_certain():
+    """More singletons relative to doubletons means a larger, less certain
+    extrapolation, and the interval must get wider in absolute terms."""
+    tight = diversity.diversity_from_spectrum({"1": 5, "2": 40, "8": 10})
+    loose = diversity.diversity_from_spectrum({"1": 60, "2": 3, "8": 10})
+    tight_width = tight["chao1_ci95_upper"] - tight["chao1_ci95_lower"]
+    loose_width = loose["chao1_ci95_upper"] - loose["chao1_ci95_lower"]
+    assert loose_width > tight_width
+
+
 def test_goods_coverage_definition():
     """Good's coverage = 1 - F1/n."""
     spectrum = {"1": 3, "10": 2}  # F1=3, n = 3*1 + 2*10 = 23
