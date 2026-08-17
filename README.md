@@ -39,6 +39,107 @@ Four reports in [`outputs/reports/`](outputs/reports/) carry every number.
 
 ---
 
+## Target architecture
+
+The four-stage pipeline in this repository answers the *research question* —
+it's what was actually built and measured. It also produced the finding that
+shapes everything below: **the binding constraint is reference-database
+coverage, not the encoder.** Only 5.2% of variants are assignable at genus
+level; most of the community sits in a resolution gap that's too divergent
+for confident reference matching but isn't evidence of "no organism there."
+
+The architecture below is the target design for a full open-world eDNA
+pipeline built around that finding: screen cheaply against references
+first, spend foundation-model compute only on what references can't
+resolve, and treat "no reference match" as a discovery signal to cluster
+and validate rather than a dead end. **This is a design document, not a
+claim about what exists in this repository** — see the status note below
+the diagram for implemented vs. planned.
+
+```mermaid
+flowchart TD
+    A["Raw eDNA reads<br/>18S / COI · sediment or water"] --> B["QC + preprocessing<br/>filtering · trimming · ASVs"]
+    B --> C["Unique representative sequences<br/>dereplication"]
+    C --> D{"MMseq2<br/>fast reference screening"}
+    D -->|"high-confidence match"| E["Known taxonomic assignment<br/>hierarchical taxonomic head"]
+    D -->|"low / no match"| F["GenomeOcean encoder<br/>DNA → embedding"]
+    F --> G["Known-taxon classification<br/>taxonomic head"]
+    F --> H["HDBSCAN<br/>unsupervised clustering"]
+    H --> I["Candidate novel clusters"]
+    I --> J{"Novelty validation<br/>cluster stability · similarity search ·<br/>sequence coherence · phylogenetic evidence"}
+    E --> K["XAI — AttnLRP<br/>important sequence regions / nucleotides"]
+    G --> K
+    J -->|"confirmed candidate"| K
+    K --> L["Interpretable evidence<br/>prediction + confidence + attributed positions"]
+    L --> M["Abundance estimation<br/>bias-corrected"]
+    L --> N["Biodiversity assessment<br/>richness, α / β diversity"]
+    L --> O["Environmental context<br/>WOA23 + INCOIS"]
+    M --> P["Ecological interpretation"]
+    N --> P
+    O --> P
+```
+
+### Why each stage exists
+
+| Stage | Problem it solves |
+|---|---|
+| QC + ASV/representative-sequence collapse | Computational — don't send millions of redundant reads into a foundation model. |
+| MMseq2 | Computational + known-taxon — use the cheap conventional method first; a foundation model shouldn't spend compute on a sequence that already has a strong reference match. |
+| GenomeOcean encoder | Poor reference-database coverage — for sequences without a convincing match, obtain a learned representation instead of declaring them "unclassified" outright. |
+| HDBSCAN | Genuinely unsupervised discovery — candidate novel groups from embeddings, no predefined species label required. |
+| Novelty validation | Prevents garbage clusters. A cluster isn't "novel" just because HDBSCAN drew a boundary around it — needs stability, expanded similarity search, sequence coherence, and phylogenetic evidence where feasible. |
+| AttnLRP | Mandatory XAI, not an optional visualization — every prediction ships with the sequence positions that drove it. |
+| Environment (WOA23 + INCOIS) | Deliberately kept **out of** the taxonomy/novelty branch, applied only after classification. "Where does this lineage occur, at what depth, under what conditions" is defensible; "DNA + ocean conditions → taxon" as the primary classifier is not. |
+
+### Tech stack
+
+| Layer | Tools |
+|---|---|
+| Sequencing | Illumina · FASTQ |
+| Bioinformatics | DADA2 · VSEARCH |
+| Search | MMseq2 |
+| Deep learning | PyTorch · ONNX |
+| Clustering | HDBSCAN · Leiden |
+| XAI | AttnLRP |
+| Database | PostgreSQL · pgvector |
+| API / frontend | FastAPI · React · TypeScript |
+| Pipeline orchestration | Snakemake · Docker |
+
+### Problem-to-architecture mapping
+
+| PS problem | Architecture component |
+|---|---|
+| Poor reference databases | GenomeOcean representation |
+| Unassigned / divergent sequences | Foundation-model branch |
+| Novel taxa | HDBSCAN |
+| Need classification | MMseq2 + taxonomic classifier |
+| Need annotation | Taxonomic output |
+| Need abundance | Read/ASV abundance aggregation |
+| Need biodiversity | Richness + α/β diversity |
+| Computational time | Deduplication + MMseq2 early filtering |
+| Explainability | AttnLRP |
+| Verify novel discoveries | Cluster stability + similarity + phylogenetic evidence |
+| Deep-sea ecological insight | WOA23 + INCOIS |
+
+The intended research contribution is therefore not a new neural
+architecture. It's an efficient open-world eDNA analysis pipeline that uses
+conventional methods for the easy cases and learned representations +
+unsupervised discovery for the poorly-represented ones, while producing
+interpretable sequence evidence for every prediction.
+
+**Status — implemented vs. planned.** What this repository currently
+implements and empirically validates (the [Results](#results) section
+below) is a simplified left half of this diagram: QC/dereplication, the
+GenomeOcean encoder, a k-mer baseline for comparison, and reference-derived
+taxonomic assignment — plus a TaxDistill-style distillation experiment that
+sits outside the target design entirely. **MMseq2 triage, HDBSCAN novelty
+discovery + validation, AttnLRP, the abundance/biodiversity/environmental-
+context modules, and the database/API/pipeline layers are not yet
+implemented.** This section documents the design they're headed toward, not
+a retroactive description of existing code.
+
+---
+
 ## Quick start
 
 ```bash
@@ -88,10 +189,14 @@ retrieval**: given one mate's embedding, find its partner among 99 distractors
 | AUROC (mate vs random) | 0.5167 | **0.6200** |
 | Throughput | **15,365 reads/s** (CPU) | 434 reads/s (GPU) |
 
+![Baseline vs foundation model on identical reads: retrieval accuracy, AUROC, throughput, and representation width](outputs/figures/model_comparison.png)
+
 Two confounds were found and controlled for: the data is **amplicon, not
 shotgun** (uncontrolled, both scores fall *below* chance), and GenomeOcean is
 **not reverse-complement invariant** (correcting mate orientation nearly doubled
 its top-1). The baseline is provably RC-invariant, verified bit-for-bit.
+
+![Encoder throughput vs batch size and peak GPU memory headroom on a 6 GB laptop GPU](outputs/figures/computational_performance.png)
 
 ### Stage 2 — unsupervised community structure
 
@@ -100,6 +205,8 @@ extraordinarily uneven: **7 variants carry half the library**, one carries
 13.17%. 80.9% of variants are singletons but only 6.6% of reads — the rare tail
 is mostly sequencing error, which is why Chao1 (4.5× observed) is reported as an
 upper bound, not a species count.
+
+![Dereplication frequency spectrum and observed vs Chao1-estimated richness](outputs/figures/dereplication.png)
 
 **Only 39.7% of each read varies across the community.** Amplicon end 0 opens
 with a 90 bp block that is 97.2% invariant. Positions that don't vary can't
@@ -117,6 +224,8 @@ paired, so tested with McNemar's exact test:
 
 On the informative region GenomeOcean holds AUROC 0.582 while the baseline falls
 to 0.497 — chance.
+
+![Mate retrieval and mate/non-mate separation on the full read vs the variable region alone, foundation model vs baseline](outputs/figures/variable_region.png)
 
 ### Stage 3 — dataset identified, supervised classification
 
@@ -146,6 +255,8 @@ Neither accuracy difference is significant (McNemar p=0.885, p=0.061). The
 foundation model leads on macro F1 — the baseline misassigns *Globothalamea_X* to
 *Robertinida*, which GenomeOcean resolves.
 
+![Row-normalised confusion matrices at class rank, foundation model vs baseline, held-out test split](outputs/figures/confusion_matrix_class.png)
+
 ### Stage 4 — TaxDistill's distillation loop
 
 Three branches, same split, same seed, identical student initialisation:
@@ -170,6 +281,8 @@ at class/order.
 ---
 
 ## Project structure
+
+![Architecture of what is actually implemented in this repository — stages 1 and 2 of the pipeline, every number measured](outputs/figures/architecture.png)
 
 ```
 main.py                  24-stage CLI; every stage reusable and resumable
