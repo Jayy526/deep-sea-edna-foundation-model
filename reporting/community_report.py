@@ -148,7 +148,9 @@ def build_report(cfg: dict) -> Path:
         add(f"| Hill q0 (richness) | {idx['hill_q0_richness']:,.0f} | all variants counted equally |")
         add(f"| Hill q1 (exp Shannon) | {idx['hill_q1_exp_shannon']:,.1f} | equally-common variants giving the same entropy |")
         add(f"| Hill q2 (inv. Simpson) | {idx['hill_q2_inverse_simpson']:,.1f} | weighted toward the abundant |")
-        add(f"| Chao1 estimate | {idx['chao1_estimated_richness']:,.0f} | {idx['chao1_over_observed']:.1f}x observed |")
+        add(f"| Chao1 estimate | {idx['chao1_estimated_richness']:,.0f} "
+            f"(95% CI {idx['chao1_ci95_lower']:,.0f}–{idx['chao1_ci95_upper']:,.0f}) "
+            f"| {idx['chao1_over_observed']:.1f}x observed |")
         add(f"| Good's coverage | {idx['goods_coverage'] * 100:.2f}% | fraction of the community sampled |")
         add("")
         add(f"**The Hill numbers are the story.** {idx['observed_richness_variants']:,} "
@@ -158,7 +160,9 @@ def build_report(cfg: dict) -> Path:
             f"telling completely different stories, and reporting richness alone would "
             f"be misleading.")
         add("")
-        add(f"**On Chao1.** The {idx['chao1_estimated_richness']:,.0f} estimate is driven "
+        add(f"**On Chao1.** The {idx['chao1_estimated_richness']:,.0f} estimate "
+            f"(log-normal 95% CI {idx['chao1_ci95_lower']:,.0f}–"
+            f"{idx['chao1_ci95_upper']:,.0f}) is driven "
             f"by {idx['singletons']:,} singletons. In amplicon data singletons are "
             f"predominantly sequencing error, not rare organisms, so this figure is an "
             f"upper bound on *molecular* diversity and should not be read as a species "
